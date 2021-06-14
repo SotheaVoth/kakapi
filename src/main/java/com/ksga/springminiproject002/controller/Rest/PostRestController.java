@@ -1,7 +1,14 @@
 package com.ksga.springminiproject002.controller.Rest;
 
-import com.ksga.springminiproject002.model.Posts;
+import com.ksga.springminiproject002.model.Post;
+import com.ksga.springminiproject002.payload.dto.PostDto;
+import com.ksga.springminiproject002.payload.mapper.PostMapper;
+import com.ksga.springminiproject002.payload.request.PostRequest;
+import com.ksga.springminiproject002.service.PostService;
+import com.ksga.springminiproject002.utilities.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -10,39 +17,40 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/posts")
 public class PostRestController {
+    private final PostService postService;
 
-//    @Autowired
-//    private Posts posts;
+    @Autowired
+    private PostMapper postMapper;
 
-//    @Autowired
-//    private UserRepository userRepository;
-
+    @Autowired
+    public PostRestController(PostService postService) {
+        this.postService = postService;
+    }
     @GetMapping
-    public Map<String, Object> getAllPosts () {
-        Posts posts = new Posts();
-        posts.setCaption("This is caption test");
-
-        Map<String, Object> response = new HashMap();
-        response.put("status", 200);
-        response.put("message", "You success");
-        response.put("success", true);
-        response.put("payload", posts);
-
-        return response;
+    public ResponseEntity<Map<String, Object>> getAllPosts (@RequestParam int page, @RequestParam int limit) {
+        Post post = new Post();
+        Paging paging = new Paging();
+        paging.setPage(page);
+        paging.setLimit(limit);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data",postService.findAll(paging));
+        response.put("pagination",paging);
+        response.put("message","successfully fetched");
+        response.put("status", HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
     @PostMapping
-    public Map<String, Object> createPost () {
-        Posts posts = new Posts();
-        posts.setCaption("This is caption test");
+    public ResponseEntity<Map<String, Object>> insertArticle(@RequestBody PostRequest post){
+        Map<String, Object> response = new HashMap<>();
 
-        Map<String, Object> response = new HashMap();
-
-
-        return response;
+        response.put("message","successfully create");
+        response.put("data",postService.insert(post));
+        response.put("status", HttpStatus.CREATED);
+        return ResponseEntity.ok(response);
     }
-    @PutMapping
+    @PutMapping("/{id}")
     public Map<String, Object> updatePost () {
-        Posts posts = new Posts();
+        Post posts = new Post();
         posts.setCaption("This is caption test");
 
         Map<String, Object> response = new HashMap();
@@ -50,9 +58,9 @@ public class PostRestController {
 
         return response;
     }
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public Map<String, Object> deletePost () {
-        Posts posts = new Posts();
+        Post posts = new Post();
         posts.setCaption("This is caption test");
 
         Map<String, Object> response = new HashMap();

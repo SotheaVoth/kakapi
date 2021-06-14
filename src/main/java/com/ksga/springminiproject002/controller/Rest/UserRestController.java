@@ -1,6 +1,6 @@
 package com.ksga.springminiproject002.controller.Rest;
 
-import com.ksga.springminiproject002.model.Posts;
+import com.ksga.springminiproject002.model.Post;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
 public class UserRestController {
     @GetMapping
     public Map<String, Object> getAllUsers () {
-        Posts posts = new Posts();
+        Post posts = new Post();
         posts.setCaption("This is caption test");
 
         Map<String, Object> response = new HashMap();
@@ -24,7 +24,7 @@ public class UserRestController {
     }
     @PostMapping
     public Map<String, Object> createUser () {
-        Posts posts = new Posts();
+        Post posts = new Post();
         posts.setCaption("This is caption test");
 
         Map<String, Object> response = new HashMap();
@@ -34,7 +34,7 @@ public class UserRestController {
     }
     @PutMapping
     public Map<String, Object> updateUser () {
-        Posts posts = new Posts();
+        Post posts = new Post();
         posts.setCaption("This is caption test");
 
         Map<String, Object> response = new HashMap();
@@ -44,7 +44,7 @@ public class UserRestController {
     }
     @DeleteMapping
     public Map<String, Object> deleteUser () {
-        Posts posts = new Posts();
+        Post posts = new Post();
         posts.setCaption("This is caption test");
 
         Map<String, Object> response = new HashMap();
