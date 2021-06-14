@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Users {
-    private String fullname;
-    private String password;
-    private String[] roles;
-    private String username;
+public class Post {
+    private String id;
+    private String caption;
+    private String imageUrl;
+    private int likes;
+    private boolean owner;
+    private String userId;
 }
